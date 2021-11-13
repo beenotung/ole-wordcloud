@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      {{ title }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ title }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">
+        Room Name
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="roomName"></ion-input>
+    </ion-item>
+    <ion-list-header>
+      Questions
+    </ion-list-header>
+    <ion-item *ngFor="let question of questions; let i = index">
+      <ion-label position="stacked">
+        Question {{ i + 1 }}
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="question.text"
+      ></ion-input>
+    </ion-item>
+    <div class="ion-text-center">
+      <ion-button (click)="addQuestion()">
+        Add Question
+      </ion-button>
+    </div>
+    <div class="ion-text-center ion-margin-top">
+      <ion-button (click)="submit()" color="success">
+        Create Room
+      </ion-button>
+    </div>
+
+  </ion-list>
+</ion-content>
