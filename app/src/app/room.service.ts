@@ -9,13 +9,18 @@ import {NoticeService} from './notice.service'
 })
 export class RoomService {
 
-  origin = 'http://localhost:3000'
+  origin: string
 
   constructor(
     private http: HttpClient,
     private noticeService: NoticeService,
     private accountService: AccountService,
   ) {
+    if (location.origin.startsWith('http://localhost')) {
+      this.origin = 'http://localhost:3000'
+    } else {
+      this.origin = 'https://ole-wordcloud.fduat.com'
+    }
   }
 
   createRoom(roomName: string, questions: string[]) {
