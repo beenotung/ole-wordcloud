@@ -29,7 +29,6 @@ export class RoomPage implements OnInit {
   mutationObserver?: MutationObserver
 
 
-
   constructor(
     public route: ActivatedRoute,
     public roomService: RoomService,
@@ -43,7 +42,33 @@ export class RoomPage implements OnInit {
       this.code = params.code
       return this.refresh()
     })
+  }
 
+  renderCanvas(){
+    const elements = this.elementRef.nativeElement.querySelector('ion-content')
+      .querySelectorAll('[data-index]')
+    elements.forEach(element => {
+      const canvas = element as HTMLCanvasElement
+      const rect = canvas.parentElement.getBoundingClientRect()
+      const width = Math.floor(rect.width * 0.9)
+      const height = Math.floor(width * 3 / 4)
+      canvas.width = width
+      canvas.height = height
+      canvas.style.width = width + 'px'
+      canvas.style.height = height + 'px'
+      const list = JSON.parse(canvas.dataset.list)
+      console.log('list:', list)
+      WordCloud(canvas, {
+        list,
+        hover: (item: WordItem) => {
+          console.log('hover:', item)
+        },
+        click: (item: WordItem) => {
+          console.log('click:', item)
+        },
+      })
+      console.log('canvas:', canvas)
+    })
   }
 
   ionViewDidEnter() {
@@ -51,30 +76,7 @@ export class RoomPage implements OnInit {
       this.mutationObserver.disconnect()
     }
     this.mutationObserver = new MutationObserver(mutations => {
-      const elements = this.elementRef.nativeElement.querySelector('ion-content')
-        .querySelectorAll('[data-index]')
-      elements.forEach(element => {
-        const canvas = element as HTMLCanvasElement
-        const rect = canvas.parentElement.getBoundingClientRect()
-        const width = Math.floor(rect.width * 0.9)
-        const height = Math.floor(width * 3 / 4)
-        canvas.width = width
-        canvas.height = height
-        canvas.style.width = width + 'px'
-        canvas.style.height = height + 'px'
-        const list = JSON.parse(canvas.dataset.list)
-        console.log('list:', list)
-        WordCloud(canvas, {
-          list,
-          hover: (item: WordItem) => {
-            console.log('hover:', item)
-          },
-          click: (item: WordItem) => {
-            console.log('click:', item)
-          },
-        })
-        console.log('canvas:', canvas)
-      })
+      this.renderCanvas()
     })
     this.mutationObserver.observe(this.elementRef.nativeElement, {
       childList: true,
@@ -100,6 +102,7 @@ export class RoomPage implements OnInit {
     if (!this.code) {
       return
     }
+    // location.reload()
     return this.roomService.getRoom(this.code)
       .then(json => {
         if (json.error) {
@@ -111,6 +114,9 @@ export class RoomPage implements OnInit {
             response: '',
             word_list_text: question.word_list ? JSON.stringify(question.word_list) : null
           }))
+          setTimeout(() => {
+            this.renderCanvas()
+          })
         }
       })
   }
@@ -125,7 +131,6 @@ export class RoomPage implements OnInit {
           return this.noticeService.showError('Failed to submit response', json.error)
         } else {
           return this.noticeService.showSuccess('Submitted response')
-            .then(() => this.refresh())
         }
       })
   }
