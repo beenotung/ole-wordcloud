@@ -40,5 +40,25 @@
     </ion-button>
   </div>
 
+  <ion-list>
+    <ion-list-header>
+      My Rooms
+    </ion-list-header>
+    <ion-progress-bar *ngIf="!myRooms" type="indeterminate"></ion-progress-bar>
+    <ng-container *ngIf="myRooms">
+      <ion-note *ngIf="myRooms.length === 0" class="ion-padding">
+        No rooms created yet
+      </ion-note>
+      <ion-item *ngFor="let room of myRooms" [routerLink]="'/room'" [queryParams]="{code: room.code}">
+        {{ room.name }}
+        <ion-buttons slot="end">
+          <ion-button color="danger" (click)="deleteRoom(room,$event)">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+
 
 </ion-content>

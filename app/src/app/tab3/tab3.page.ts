@@ -1,6 +1,10 @@
 import {Component} from '@angular/core'
 import {AlertController} from '@ionic/angular'
 import {AccountService} from '../account.service'
+import {APIResponse, MyRoomListResponse} from "../../types";
+import {RoomService} from "../room.service";
+import {NoticeService} from "../notice.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-tab3',
@@ -12,14 +16,29 @@ export class Tab3Page {
 
   token = this.accountService.token
 
+  myRooms?: MyRoomListResponse['rooms']
+
   constructor(
     public accountService: AccountService,
+    public roomService: RoomService,
     public alertController: AlertController,
+    public noticeService: NoticeService,
   ) {
   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
     this.token = this.accountService.token
+    this.roomService.getMyRooms().then(json => {
+      if (json.error) {
+        return this.noticeService.showError('Failed to load my rooms', json.error)
+      } else {
+        this.myRooms = json.rooms
+      }
+    })
+  }
+
+  getRoomUrl(room: MyRoomListResponse['rooms'][number]) {
+    return ['/room', {code: room.code}]
   }
 
   canSave() {
@@ -33,7 +52,7 @@ export class Tab3Page {
       buttons: [
         {text: 'Cancel', role: 'cancel'},
         {
-          text: 'Confirm', handler: () => {
+          text: 'Change Token', handler: () => {
             this.accountService.token = this.token
           }
         }
@@ -49,7 +68,7 @@ export class Tab3Page {
       buttons: [
         {text: 'Cancel', role: 'cancel'},
         {
-          text: 'Confirm', handler: () => {
+          text: 'Reset Token', handler: () => {
             this.accountService.resetToken()
             this.token = this.accountService.token
           }
@@ -57,6 +76,31 @@ export class Tab3Page {
       ]
     })
     await alert.present()
+  }
+
+  deleteRoom(room: MyRoomListResponse['rooms'][number], event: Event) {
+    event.preventDefault()
+    return this.alertController.create({
+      header: 'Confirm to delete room?',
+      message: 'Room ' + room.name + ' will be deleted',
+      buttons: [
+        {text: 'Cancel', role: 'cancel'},
+        {
+          text: 'Delete Room', handler: () => {
+            return this.roomService.deleteRoom(room.id)
+              .then((json: APIResponse) => {
+                if (json.error) {
+                  return this.noticeService.showError('Failed to delete room', json.error)
+                } else {
+                  this.myRooms.splice(this.myRooms.indexOf(room))
+                  return this.noticeService.showSuccess('Deleted room')
+                }
+              })
+          }
+        }
+      ]
+    })
+      .then(alert => alert.present())
   }
 
 }

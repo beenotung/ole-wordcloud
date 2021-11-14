@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Room{{ room ? ': ' + room.name : '' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="refresh()">
+        <ion-icon name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list *ngIf="room">
+    <ng-container *ngFor="let item of items">
+      <ion-list-header>
+        Question: {{ item.question }}
+      </ion-list-header>
+      <ion-item>
+        <ion-label position="stacked">
+          Response
+        </ion-label>
+        <ion-textarea [(ngModel)]="item.response"></ion-textarea>
+        <ion-button slot="end" (click)="submit(item)">
+          Submit
+        </ion-button>
+      </ion-item>
+      <div>
+        <span *ngFor="let response of item.responses">
+          {{ response }}
+        </span>
+      </div>
+    </ng-container>
+
+  </ion-list>
+
+</ion-content>

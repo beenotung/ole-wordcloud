@@ -14,6 +14,8 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "prefer-arrow/prefer-arrow-functions": "off",
+        "@typescript-eslint/naming-convention": "off",
         "no-underscore-dangle": "off",
         "semi": "off",
         "@typescript-eslint/semi": ["error", "never"],

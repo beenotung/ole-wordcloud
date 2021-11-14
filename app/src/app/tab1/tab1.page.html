@@ -27,10 +27,16 @@
       <ion-label position="stacked">
         Question {{ i + 1 }}
       </ion-label>
-      <ion-input type="text" [(ngModel)]="question.text"
+      <ion-input
+        type="text"
+        [(ngModel)]="question.text"
+        (ionChange)="checkQuestion(question.text, i)"
       ></ion-input>
+      <ion-button slot="end" color="danger" (click)="removeQuestion(i)">
+        Remove
+      </ion-button>
     </ion-item>
-    <div class="ion-text-center">
+    <div class="ion-padding">
       <ion-button (click)="addQuestion()">
         Add Question
       </ion-button>

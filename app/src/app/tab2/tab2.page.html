@@ -13,5 +13,28 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">Room Code</ion-label>
+      <ion-input type="text" [(ngModel)]="roomCode"></ion-input>
+      <ion-buttons slot="end">
+        <ion-button (click)="scan()">
+          <ion-icon name="qr-code"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <zxing-scanner
+    *ngIf="isScanning"
+    (scanSuccess)="scanSuccess($event)"
+  ></zxing-scanner>
+
+  <div class="ion-padding">
+    <ion-button expand="block" (click)="joinRoom()">
+      Join Room
+    </ion-button>
+  </div>
+
+
 </ion-content>
