@@ -17,8 +17,8 @@ export class RoomService {
     private accountService: AccountService,
   ) {
     const origin = location.origin
-    if (origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1')) {
-      this.origin = 'http://localhost:3000'
+    if (origin.endsWith(':4200')) {
+      this.origin = origin.replace(':4200', ':3000')
     } else {
       this.origin = 'https://ole-wordcloud.fduat.com'
     }
