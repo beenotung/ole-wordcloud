@@ -17,7 +17,14 @@
   <ion-list *ngIf="room">
     <ng-container *ngIf="room.isOwner">
       <ion-list-header>
+        <b>
+          Room Code: {{ code }}
+        </b>
+      </ion-list-header>
+      <ion-list-header>
+        <b>
         QR Code
+        </b>
       </ion-list-header>
       <div class="ion-text-center">
         <qrcode [qrdata]="code" [width]="320"></qrcode>
