@@ -15,11 +15,18 @@
 
   <ion-list>
     <ion-item>
-      <ion-label position="stacked">Room Code</ion-label>
+      <ion-label
+        [color]="!roomCode?'danger':''"
+        position="stacked"
+      >
+        Room Code
+      </ion-label>
       <ion-input type="text" [(ngModel)]="roomCode"></ion-input>
       <ion-buttons slot="end">
-        <ion-button (click)="scan()">
+        <ion-button (click)="scan()" class="shake" color="dark">
           <ion-icon name="qr-code"></ion-icon>
+          &nbsp;
+          Scan
         </ion-button>
       </ion-buttons>
     </ion-item>

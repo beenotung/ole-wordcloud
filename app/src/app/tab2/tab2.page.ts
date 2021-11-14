@@ -39,7 +39,7 @@ export class Tab2Page {
   joinRoom() {
     const code = this.roomCode.trim()
     if (!code) {
-      return this.noticeService.showError('Cannot join room', 'Missing room code')
+      return this.noticeService.showError('Cannot join room', 'Missing room code. Please input or scan the room code.')
     }
     return this.router.navigate(['/room',], {queryParams: {code}})
   }
