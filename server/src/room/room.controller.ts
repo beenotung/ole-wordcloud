@@ -19,7 +19,7 @@ import { collection, db, dict, Room } from '../data'
 import { randomCode } from '../utils'
 import { countWords } from '../wordcloud'
 
-@Controller('room')
+@Controller('api/room')
 export class RoomController {
   @Post('/')
   createRoom(@Body('room') room: NewRoom): NewRoomResponse {

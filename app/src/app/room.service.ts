@@ -16,11 +16,13 @@ export class RoomService {
     private noticeService: NoticeService,
     private accountService: AccountService,
   ) {
-    if (location.origin.startsWith('http://localhost')) {
+    const origin = location.origin
+    if (origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1')) {
       this.origin = 'http://localhost:3000'
     } else {
       this.origin = 'https://ole-wordcloud.fduat.com'
     }
+    this.origin += '/api'
   }
 
   createRoom(roomName: string, questions: string[]) {
