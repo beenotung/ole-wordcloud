@@ -19,6 +19,7 @@ export class RoomPage implements OnInit {
 
   room?: GetRoomResponse['room']
   code?: string
+  roomUrl?: string
 
   items: {
     question: string;
@@ -40,6 +41,7 @@ export class RoomPage implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.code = params.code
+      this.roomUrl = location.href
       return this.refresh()
     })
   }

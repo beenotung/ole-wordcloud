@@ -27,7 +27,8 @@
         </b>
       </ion-list-header>
       <div class="ion-text-center">
-        <qrcode [qrdata]="code" [width]="320"></qrcode>
+        <qrcode [qrdata]="roomUrl" [width]="320"></qrcode>
+        <span>{{roomUrl}}</span>
       </div>
     </ng-container>
 

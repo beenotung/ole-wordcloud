@@ -32,6 +32,10 @@ export class Tab2Page {
   }
 
   scanSuccess(code: string) {
+    if(code.includes('?')){
+      let params = new URLSearchParams(code.slice(code.indexOf('?')))
+      code = params.get('code') || code
+    }
     this.roomCode = code
     this.isScanning = false
   }
