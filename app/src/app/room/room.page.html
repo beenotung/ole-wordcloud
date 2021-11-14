@@ -15,11 +15,20 @@
 <ion-content>
 
   <ion-list *ngIf="room">
-    <ng-container *ngFor="let item of items">
+    <ng-container>
+      <ion-list-header>
+        QR Code
+      </ion-list-header>
+      <div class="ion-text-center">
+        <qrcode [qrdata]="code" [width]="320"></qrcode>
+      </div>
+    </ng-container>
+
+    <ng-container *ngFor="let item of items; let i = index">
       <ion-list-header>
         Question: {{ item.question }}
       </ion-list-header>
-      <ion-item>
+      <ion-item *ngIf="!room.isOwner">
         <ion-label position="stacked">
           Response
         </ion-label>
@@ -28,10 +37,23 @@
           Submit
         </ion-button>
       </ion-item>
-      <div>
-        <span *ngFor="let response of item.responses">
-          {{ response }}
-        </span>
+      <div *ngIf="room.isOwner">
+        <!--
+        <p>
+          Preview:
+          <span>
+            {{ item.word_list_text }}
+          </span>
+        </p>
+        -->
+        <div class="ion-text-center">
+          <canvas
+            class="wordcloud"
+            [attr.data-index]="i"
+            [attr.data-list]="item.word_list_text"
+          >Canvas is not supported
+          </canvas>
+        </div>
       </div>
     </ng-container>
 

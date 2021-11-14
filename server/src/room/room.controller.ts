@@ -17,6 +17,7 @@ import {
 } from '../types'
 import { collection, db, dict, Room } from '../data'
 import { randomCode } from '../utils'
+import { countWords } from '../wordcloud'
 
 @Controller('room')
 export class RoomController {
@@ -94,23 +95,40 @@ export class RoomController {
   }
 
   @Get('/')
-  getRoom(@Query('code') code: string): GetRoomResponse {
+  getRoom(
+    @Query('code') code: string,
+    @Query('token') token: string
+  ): GetRoomResponse {
     code = (code || '').trim()
     if (!code) {
       throw new HttpException('Missing query.code', HttpStatus.BAD_REQUEST)
+    }
+    token = (token || '').trim()
+    if (!token) {
+      throw new HttpException('Missing query.token', HttpStatus.BAD_REQUEST)
     }
     const room_id = dict.data.codeRooms?.[code]
     if (!room_id) {
       throw new HttpException('Room not found', HttpStatus.NOT_FOUND)
     }
     const room = collection.data.rooms[room_id as number]
+    const isOwner = room.ownerToken === token
     return {
       room: {
+        isOwner,
         name: room.name,
-        questions: room.questions.map((question) => ({
-          question: question.question,
-          responses: Object.values(question.responses)
-        }))
+        questions: room.questions.map((question) => {
+          if (isOwner) {
+            return {
+              question: question.question,
+              word_list: countWords(Object.values(question.responses))
+            }
+          } else {
+            return {
+              question: question.question
+            }
+          }
+        })
       }
     }
   }

@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { RoomPageRoutingModule } from './room-routing.module';
 
 import { RoomPage } from './room.page';
+import {QRCodeModule} from "angularx-qrcode";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RoomPageRoutingModule
+    RoomPageRoutingModule,
+    QRCodeModule,
   ],
   declarations: [RoomPage]
 })

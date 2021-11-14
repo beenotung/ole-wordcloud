@@ -22,10 +22,11 @@ export interface MyRoomListResponse extends APIResponse {
 
 export interface GetRoomResponse extends APIResponse {
   room: {
+    isOwner:boolean
     name: string;
     questions: {
-      question: string;
-      responses: string[];
-    }[];
-  };
+      question: string
+      word_list?: { word: string; count: number, weight: number }[]
+    }[]
+  }
 }

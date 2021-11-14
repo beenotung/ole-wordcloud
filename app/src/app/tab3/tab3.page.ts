@@ -4,7 +4,6 @@ import {AccountService} from '../account.service'
 import {APIResponse, MyRoomListResponse} from "../../types";
 import {RoomService} from "../room.service";
 import {NoticeService} from "../notice.service";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-tab3',
@@ -78,8 +77,7 @@ export class Tab3Page {
     await alert.present()
   }
 
-  deleteRoom(room: MyRoomListResponse['rooms'][number], event: Event) {
-    event.preventDefault()
+  deleteRoom(room: MyRoomListResponse['rooms'][number], ) {
     return this.alertController.create({
       header: 'Confirm to delete room?',
       message: 'Room ' + room.name + ' will be deleted',

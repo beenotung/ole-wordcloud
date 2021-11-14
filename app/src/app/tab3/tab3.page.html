@@ -49,10 +49,14 @@
       <ion-note *ngIf="myRooms.length === 0" class="ion-padding">
         No rooms created yet
       </ion-note>
-      <ion-item *ngFor="let room of myRooms" [routerLink]="'/room'" [queryParams]="{code: room.code}">
+      <ion-item *ngFor="let room of myRooms" >
+          <ion-button  slot="start" [routerLink]="'/room'" [queryParams]="{code: room.code}">
+            Go
+          </ion-button>
+
         {{ room.name }}
         <ion-buttons slot="end">
-          <ion-button color="danger" (click)="deleteRoom(room,$event)">
+          <ion-button color="danger" (click)="deleteRoom(room)">
             <ion-icon name="trash"></ion-icon>
           </ion-button>
         </ion-buttons>

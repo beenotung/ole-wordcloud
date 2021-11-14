@@ -55,7 +55,12 @@ export class RoomService {
   }
 
   getRoom(code: string) {
-    return this.http.get(this.origin + '/room', {params: {code}})
+    return this.http.get(this.origin + '/room', {
+      params: {
+        code,
+        token: this.accountService.token
+      }
+    })
       .toPromise()
       .catch(toError) as Promise<GetRoomResponse>
   }
