@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 set -o pipefail
-rsync -SavLP dist fduat.com:~/workspace/github.com/beenotung/ole-wordcloud/server
+rsync -SavLP dist ole-wordcloud.hkit.cc:~/workspace/github.com/beenotung/ole-wordcloud/server
